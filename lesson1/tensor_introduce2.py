@@ -28,7 +28,7 @@ if flag:
     t_stack = torch.stack([t, t, t], dim=2)
     print("\nt_stack.shape:{}".format(t_stack.shape))
     # dim =0
-    t_stack = torch.stack([t, t, t], dim=0)
+    t_stack = torch.stack([t, t, t], dim=0) # 原来的矩阵有行（0维），所以要先把原张量变成行方向只有1行的
     print("\nt_stack.shape:{}".format(t_stack.shape))
 
 
@@ -41,7 +41,7 @@ flag = False
 if flag:
     a = torch.ones((2, 7))  # 7
     list_of_tensors = torch.chunk(a, dim=1, chunks=3)   # 3
-    for idx, t in enumerate(list_of_tensors):
+    for idx, t in enumerate(list_of_tensors):      # 每份2个还多一个 所以每份3个
         print("第{}个张量：{}, shape is {}".format(idx+1, t, t.shape))
 
 
@@ -87,7 +87,7 @@ if flag:
 
     t = torch.randint(0, 9, size=(3, 3))
     mask = t.le(5)  # ge is mean greater than or equal/   gt: greater than  le  lt
-    # # 取出大于 5 的数
+    # # 取出小于等于 5 的数
     t_select = torch.masked_select(t, mask)
     print("t:\n{}\nmask:\n{}\nt_select:\n{} ".format(t, mask, t_select))
 
@@ -122,7 +122,7 @@ if flag:
     # torch.transpose
     #把 c * h * w 变换为 h * w * c
     t = torch.rand((2, 3, 4))
-    t_transpose = torch.transpose(t, dim0=1, dim1=2)    # c*h*w     h*w*c
+    t_transpose = torch.transpose(t, dim0=1, dim1=2)    # c*h*w     c*w*h
     print("t shape:{}\nt_transpose shape: {}".format(t.shape, t_transpose.shape))
 
 
@@ -159,8 +159,10 @@ if flag:
     t_add = torch.add(t_0, 10, t_1)
     print("t_0:\n{}\nt_1:\n{}\nt_add_10:\n{}".format(t_0, t_1, t_add))
 
+    
+    
 
-
+torch.addcdiv()# 逐元素计算
 
 
 
