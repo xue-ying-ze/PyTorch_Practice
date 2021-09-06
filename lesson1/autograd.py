@@ -8,7 +8,7 @@ torch.manual_seed(10)
 # flag = True
 flag = False
 if flag:
-    w = torch.tensor([1.], requires_grad=True)
+    w = torch.tensor([1.], requires_grad=True)# 只有浮点数和复数才能计算梯度 所以要有.
     x = torch.tensor([2.], requires_grad=True)
     # y=(x+w)*(w+1)
     a = torch.add(w, x)
@@ -56,7 +56,7 @@ if flag:
     print(grad_1)
     # 这里求 2 阶导
     grad_2 = torch.autograd.grad(grad_1[0], x)              # grad_2 = d(dy/dx)/dx = d(2x)/dx = 2
-    print(grad_2)
+    print(grad_2)                                           # grad_1 包括导数值和计算的函数 求一阶导之后是2x 所以计算的函数是乘法
 
 
 # ====================================== tips: 1 ==============================================
@@ -90,7 +90,7 @@ if flag:
     y = torch.mul(a, b)
 
     print(a.requires_grad, b.requires_grad, y.requires_grad)
-
+    print("is_leaf:\n", w.is_leaf, x.is_leaf, a.is_leaf, b.is_leaf, y.is_leaf) # w b 设置为grad = true 自动识别为叶子节点
 
 # ====================================== tips: 3 ==============================================
 flag = True
@@ -120,6 +120,7 @@ if flag:
     w = torch.tensor([1.], requires_grad=True)
     x = torch.tensor([2.], requires_grad=True)
     # y = (x + w) * (w + 1)
+    # w.detach().add_(1) 使用这个语句在求导之前改变w数值 不会报错 在求导之前使用w.add_(1)依然报错 因为
     a = torch.add(w, x)
     b = torch.add(w, 1)
     y = torch.mul(a, b)
